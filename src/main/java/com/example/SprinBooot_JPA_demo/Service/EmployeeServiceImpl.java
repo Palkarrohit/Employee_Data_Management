@@ -34,16 +34,21 @@ public class EmployeeServiceImpl implements EmployeeService{
 		request.setEmpEmail(requestDTO.getReq_empEmail());
 		request.setEmpName(requestDTO.getReq_empName());
 		request.setSalary(requestDTO.getReq_salary());
-		request.setEmpID(request.getEmpID());
+		//REMOVED [Id creation takes care by JPA]request.setEmpID(request.getEmpID());
+		
+		//Start-Adding address one:one by @Rohit -[12/03/2026]
 		
 		AddressEntity address=new AddressEntity();
-		address.setAddress_Id(null);
-		address.setCity(null);
-		address.setState(null);
-		address.setPincode(null);
+		//REMOVED [Id creation takes care by JPA]-address.setAddress_Id(address.getAddress_Id());
+		address.setCity(requestDTO.getReq_address().getCity());
+		address.setPincode(requestDTO.getReq_address().getPincode());
+		address.setState(requestDTO.getReq_address().getState());
+		
+		request.setAddress(address);
 		
 		empRepo.save(request);
 		
+		//End-Adding address one:one by @Rohit -[12/03/2026]
 		
 		return "UserCreated Succeefully";
 	}

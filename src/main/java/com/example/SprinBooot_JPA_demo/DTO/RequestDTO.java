@@ -24,6 +24,8 @@ public class RequestDTO {
 	
 	private AddressEntity Req_address;
 	
+	
+	
 	//-----------------------------------------------------------
 	// Below are setter getters
 	//-----------------------------------------------------------
