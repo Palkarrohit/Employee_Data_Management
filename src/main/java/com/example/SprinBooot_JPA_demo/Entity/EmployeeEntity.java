@@ -7,7 +7,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 
 @Entity
@@ -23,22 +25,29 @@ public class EmployeeEntity {
 	@Email(message = "Id sould be in email formatOnly")
 	private String empEmail;
 	
-	@Column(nullable = false)
-	private String department;
+//	@Column(nullable = false)    --> depericated as method mapping done
+//	private String department;
+	//many:one mapping List<EmployeeEntity>;Department
+		@ManyToOne(cascade = CascadeType.ALL)
+		@JoinColumn(name = "dept_id_FK", referencedColumnName = "department_Id")
+		private DepartmentEntity department;
+	
+	
 	
 	@Column(nullable = false)
 	private double salary;
+	
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "addressfk_id" ,referencedColumnName = "address_Id")
 	private AddressEntity address;
 	
 	
-	//---------------------------------------------------------------------------------
 	
+	
+//------------------------------------------------------------------------------------------------
 	// Below are getter setters do not change it created using source
-	
-	//---------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
 	
 	public Long getEmpID() {
 		return empID;
@@ -58,10 +67,21 @@ public class EmployeeEntity {
 	public void setEmpEmail(String empEmail) {
 		this.empEmail = empEmail;
 	}
-	public String getDepartment() {
+	
+	
+//	public String getDepartment() {
+//		return department;
+//	}
+//	public void setDepartment(String department) {
+//		this.department = department;
+//	}
+	
+	
+	//new setter getters for department
+	public DepartmentEntity getDepartment() {
 		return department;
 	}
-	public void setDepartment(String department) {
+	public void setDepartment(DepartmentEntity department) {
 		this.department = department;
 	}
 	public double getSalary() {

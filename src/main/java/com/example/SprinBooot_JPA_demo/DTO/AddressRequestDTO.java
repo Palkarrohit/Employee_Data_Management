@@ -1,10 +1,13 @@
 package com.example.SprinBooot_JPA_demo.DTO;
 
+import jakarta.validation.constraints.NotBlank;
 
 public class AddressRequestDTO {
 
 	private String Req_city;
 	private String Req_state;
+	
+	//@NotBlank(message = "pincode should not blank") --> @NotBlank work only with string
 	private Long Req_pincode;
 	
 	//-----------------------------------------------------------

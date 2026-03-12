@@ -1,10 +1,16 @@
 package com.example.SprinBooot_JPA_demo.Entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 
-
+@Entity
 public class DepartmentEntity {
 	
 	@Id
@@ -12,11 +18,20 @@ public class DepartmentEntity {
 	private Long department_Id;
 	
 	private String departmentName;
+	private String departmentLocation;
+	
+	//One:Many mapping with Department:List<EmployeeEntity>
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "emp_idFK")
+    private List<EmployeeEntity> employees;
 	
 	
-	private String location;
-
-
+	
+	
+	
+	
+//-------------Below are setter getter methods ------------------------------------------------------------------	
+	
 	public Long getDepartment_Id() {
 		return department_Id;
 	}
@@ -37,13 +52,13 @@ public class DepartmentEntity {
 	}
 
 
-	public String getLocation() {
-		return location;
+	public String getDepartmentLocation() {
+		return departmentLocation;
 	}
 
 
-	public void setLocation(String location) {
-		this.location = location;
+	public void setDepartmentLocation(String location) {
+		this.departmentLocation = location;
 	}
 	
 	

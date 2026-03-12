@@ -15,7 +15,7 @@ public class AddressEntity {
 	private String city;
 	private String state;
 	
-	@NotBlank
+	
 	private Long pincode;
 
 	public Long getAddress_Id() {

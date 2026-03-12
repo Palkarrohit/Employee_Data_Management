@@ -16,6 +16,7 @@ import com.example.SprinBooot_JPA_demo.DTO.ResponseDTO;
 import com.example.SprinBooot_JPA_demo.Entity.EmployeeEntity;
 import com.example.SprinBooot_JPA_demo.Service.EmployeeService;
 
+import jakarta.validation.Valid;
 
 import com.example.SprinBooot_JPA_demo.Service.EmployeeService;
 
@@ -25,11 +26,6 @@ public class DemoController {
 
 	@Autowired
 	EmployeeService employeeService;
-	
-	
-	
-
-
 	    // ---------------------------------------------------------
 	    // GET single employee
 	    // ---------------------------------------------------------
@@ -51,11 +47,23 @@ public class DemoController {
 	    // CREATE employee
 	    // ---------------------------------------------------------
 	    @PostMapping
-	    public ResponseEntity<String> createEmployee(@RequestBody RequestDTO requestDTO) {
+	    public ResponseEntity<String> createEmployee(@Valid @RequestBody RequestDTO requestDTO) {
 	        String message = employeeService.createEmployee(requestDTO);
 	        return ResponseEntity.status(HttpStatus.CREATED).body(message);
 	    }
-
+	    
+	    // ---------------------------------------------------------
+	    // BULK CREATE employees
+	    // ---------------------------------------------------------
+	    
+	    
+	    @PostMapping("/bulk")
+	    public ResponseEntity<String> createEmployeesBulk(@Valid @RequestBody RequestDTO[] requestDTOArray) {
+	        String message = employeeService.createListOfEmployee(requestDTOArray);
+	        return ResponseEntity.status(HttpStatus.CREATED).body(message);
+	    }
+	    
+	    
 	    // ---------------------------------------------------------
 	    // UPDATE employee
 	    // ---------------------------------------------------------
@@ -64,6 +72,7 @@ public class DemoController {
 	        EmployeeEntity updated = employeeService.updateEmployee(requestDTO);
 	        return ResponseEntity.ok(updated);
 	    }
+	    
 
 	    // ---------------------------------------------------------
 	    // DELETE employee
@@ -74,14 +83,12 @@ public class DemoController {
 	        return ResponseEntity.ok(message);
 	    }
 
-	    // ---------------------------------------------------------
-	    // BULK CREATE employees
-	    // ---------------------------------------------------------
-	    @PostMapping("/bulk")
-	    public ResponseEntity<String> createEmployeesBulk(@RequestBody RequestDTO[] requestDTOArray) {
-	        String message = employeeService.createListOfEmployee(requestDTOArray);
-	        return ResponseEntity.status(HttpStatus.CREATED).body(message);
+	   
 	    
-	}
+	
+
+	    
+	    
+	    
 	
 }

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.SprinBooot_JPA_demo.DTO.AddressRequestDTO;
 import com.example.SprinBooot_JPA_demo.DTO.AddressResponseDTO;
 import com.example.SprinBooot_JPA_demo.Entity.AddressEntity;
 import com.example.SprinBooot_JPA_demo.Repo.AddressRepo;
 
+@Service
 public class AddressServiceImpl implements AddressService {
 
 	@Autowired

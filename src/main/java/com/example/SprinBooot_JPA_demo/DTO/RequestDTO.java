@@ -4,6 +4,7 @@ import com.example.SprinBooot_JPA_demo.Entity.AddressEntity;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Column;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -15,14 +16,16 @@ public class RequestDTO {
 	@Email(message = "Id sould be in email formatOnly")
 	private String Req_empEmail;
 	
-	@Column(nullable = false)
-	private String Req_department;
+	//@Column(nullable = false)
+	//private String Req_department; --> Mapping done with Department:Employees => one:many
+	private DepartmentRequestDTO Req_department;
 	
 	@Column(nullable = false)
 	@Nonnull()
 	private double Req_salary;
 	
-	private AddressEntity Req_address;
+	@Valid
+	private AddressRequestDTO Req_address;
 	
 	
 	
@@ -46,28 +49,39 @@ public class RequestDTO {
 		Req_empEmail = req_empEmail;
 	}
 
-	public String getReq_department() {
+	//No use of this setter and getters as mapping done
+//	public String getReq_department() {
+//		return Req_department;
+//	}
+//
+//	public void setReq_department(String req_department) {
+//		Req_department = req_department;
+//	}
+
+	
+//new setter and getters for department
+	public DepartmentRequestDTO getReq_department() {
 		return Req_department;
 	}
 
-	public void setReq_department(String req_department) {
+	public void setReq_department(DepartmentRequestDTO req_department) {
 		Req_department = req_department;
 	}
 
 	public double getReq_salary() {
 		return Req_salary;
 	}
-
+	
 	public void setReq_salary(double req_salary) {
 		Req_salary = req_salary;
 	}
 	
-	public void setReq_address(AddressEntity req_address)
+	public void setReq_address(AddressRequestDTO req_address)
 	{
 		Req_address=req_address;
 		
 	}
-	public AddressEntity getReq_address()
+	public AddressRequestDTO getReq_address()
 	{
 		return Req_address;
 	}

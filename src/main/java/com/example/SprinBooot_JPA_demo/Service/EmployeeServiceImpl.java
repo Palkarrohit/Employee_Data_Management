@@ -7,9 +7,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.SprinBooot_JPA_demo.DTO.AddressRequestDTO;
+import com.example.SprinBooot_JPA_demo.DTO.DepartmentRequestDTO;
 import com.example.SprinBooot_JPA_demo.DTO.RequestDTO;
 import com.example.SprinBooot_JPA_demo.DTO.ResponseDTO;
 import com.example.SprinBooot_JPA_demo.Entity.AddressEntity;
+import com.example.SprinBooot_JPA_demo.Entity.DepartmentEntity;
 import com.example.SprinBooot_JPA_demo.Entity.EmployeeEntity;
 import com.example.SprinBooot_JPA_demo.Repo.EmployeeRepo;
 
@@ -28,23 +31,24 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 	@Override
 	public String createEmployee(RequestDTO requestDTO) {
-		
-		EmployeeEntity request=new EmployeeEntity();
-		request.setDepartment(requestDTO.getReq_department());
-		request.setEmpEmail(requestDTO.getReq_empEmail());
-		request.setEmpName(requestDTO.getReq_empName());
-		request.setSalary(requestDTO.getReq_salary());
+//--------------Following Part - Before mapper method [mapToEmployeeEntity] -------------------------		
+//		EmployeeEntity request=new EmployeeEntity();
+//		request.setDepartment(requestDTO.getReq_department());
+//		request.setEmpEmail(requestDTO.getReq_empEmail());
+//		request.setEmpName(requestDTO.getReq_empName());
+//		request.setSalary(requestDTO.getReq_salary());		
 		//REMOVED [Id creation takes care by JPA]request.setEmpID(request.getEmpID());
-		
+//----------------------------------------------------------------------------------------------------		
 		//Start-Adding address one:one by @Rohit -[12/03/2026]
 		
-		AddressEntity address=new AddressEntity();
-		//REMOVED [Id creation takes care by JPA]-address.setAddress_Id(address.getAddress_Id());
-		address.setCity(requestDTO.getReq_address().getCity());
-		address.setPincode(requestDTO.getReq_address().getPincode());
-		address.setState(requestDTO.getReq_address().getState());
+		EmployeeEntity request= mapToEmployeeEntity(requestDTO);
 		
-		request.setAddress(address);
+//		AddressEntity address=new AddressEntity();
+//		//REMOVED [Id creation takes care by JPA]-address.setAddress_Id(address.getAddress_Id());
+//		address.setCity(requestDTO.getReq_address().getCity());
+//		address.setPincode(requestDTO.getReq_address().getPincode());
+//		address.setState(requestDTO.getReq_address().getState());
+//		
 		
 		empRepo.save(request);
 		
@@ -55,17 +59,58 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 	@Override
 	public EmployeeEntity updateEmployee(RequestDTO requestDTO) {
-		EmployeeEntity request=new EmployeeEntity();
-		request.setDepartment(requestDTO.getReq_department());
-		request.setEmpEmail(requestDTO.getReq_empEmail());
-		request.setEmpName(requestDTO.getReq_empName());
-		request.setSalary(requestDTO.getReq_salary());
-		request.setEmpID(request.getEmpID());
-		
-		
+
+//--------------Following Part - Before mapper method [mapToEmployeeEntity] -------------------------		
+//		EmployeeEntity request=new EmployeeEntity();
+//		request.setDepartment(requestDTO.getReq_department());
+//		request.setEmpEmail(requestDTO.getReq_empEmail());
+//		request.setEmpName(requestDTO.getReq_empName());
+//		request.setSalary(requestDTO.getReq_salary());
+//		//request.setEmpID(request.getEmpID());
+//------------------------------------------------------------------------------------------------------		
+		EmployeeEntity request=mapToEmployeeEntity(requestDTO);
 		return empRepo.save(request);
 		
 	}
+	
+	
+	@Override
+	public String createListOfEmployee(RequestDTO[] requestDTOArray) {
+	  
+		List<Long> empIdList=new ArrayList<>();
+	   
+		for(RequestDTO requestDTO:requestDTOArray)
+		{
+//--------------Following Part - Before mapper method [mapToEmployeeEntity] -------------------------
+//			EmployeeEntity request=new EmployeeEntity();
+//			
+//			request.setDepartment(requestDTO.getReq_department());
+//			request.setEmpEmail(requestDTO.getReq_empEmail());
+//			request.setEmpName(requestDTO.getReq_empName());
+//			request.setSalary(requestDTO.getReq_salary());
+//---------------------------------------------------------------------------------------------------
+			
+			EmployeeEntity request=	mapToEmployeeEntity(requestDTO);
+			
+			//Address Entity mapping
+			
+//--------------Following Part - Before mapper method [mapToAddressEntity] -------------------------			
+//			address.setCity(requestDTO.getReq_address().getCity());
+//			address.setPincode(requestDTO.getReq_address().getPincode());
+//			address.setState(requestDTO.getReq_address().getState());
+//--------------------------------------------------------------------------------------------------			
+//			AddressEntity address=mapToAddressEntity(requestDTO.getReq_address());
+//			request.setAddress(address);
+			
+			empRepo.save(request);
+			empIdList.add(request.getEmpID());
+			
+		}
+		
+		return "All users saved : "+empIdList;
+	}
+	
+	
 
 	@Override
 	public String deleteEmployee(Long empId) {
@@ -80,6 +125,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		}
 		return "Employee Deleted : "+empId;
 	}
+	
 
 	@Override
 	public List<ResponseDTO> getAllEmployees() {
@@ -87,18 +133,17 @@ public class EmployeeServiceImpl implements EmployeeService{
 		List<ResponseDTO> resposeList=new ArrayList<>();
 	    for( EmployeeEntity employee: empRepo.findAll())	
 	    {
-	    	ResponseDTO response=new ResponseDTO();
-	    	
-	    	response.setRes_empID(employee.getEmpID());
-	    	response.setRes_empName(employee.getEmpName());
-	    	response.setRes_department(employee.getDepartment());
-	    	response.setRes_empEmail(employee.getEmpEmail());
-	    	response.setRes_salary(employee.getSalary());
+//--------------Following Part - Before mapper method [mapToEmployeeResponseDTO] -------------------------	    	
+//	    	ResponseDTO response = new ResponseDTO();
+// 	     	response.setRes_empID(employee.getEmpID());
+//	    	response.setRes_empName(employee.getEmpName());
+//	    	response.setRes_department(employee.getDepartment());
+//	    	response.setRes_empEmail(employee.getEmpEmail());
+//	    	response.setRes_salary(employee.getSalary());
+//--------------------------------------------------------------------------------------------------
+	    	ResponseDTO response = mapToEmployeeResponseDTO(employee);
 	    	
 	    	resposeList.add(response);
-	    	
-	    	
-	     	
 	    }
 	   
 	    
@@ -107,25 +152,69 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	
-	@Override
-	public String createListOfEmployee(RequestDTO[] requestDTOArray) {
+	
+	
+	//Method- by @Rohit -Mapper method RequestDTO-->Employee Entity-[12/3/26]
+	public static EmployeeEntity mapToEmployeeEntity(RequestDTO request)
+	{
+		EmployeeEntity Employee=new EmployeeEntity();
 		
-         
+		Employee.setEmpEmail(request.getReq_empEmail());
+		Employee.setEmpName(request.getReq_empName());
+		Employee.setSalary(request.getReq_salary());
+		//Employee.setDepartment(request.getReq_department());  --> Depricated this method
 		
-         List<Long> empIdList=new ArrayList<>();
-		for(RequestDTO requestDTO:requestDTOArray)
-		{EmployeeEntity request=new EmployeeEntity();
-			request.setDepartment(requestDTO.getReq_department());
-			request.setEmpEmail(requestDTO.getReq_empEmail());
-			request.setEmpName(requestDTO.getReq_empName());
-			request.setSalary(requestDTO.getReq_salary());
-			request.setEmpID(request.getEmpID());
-			
-			empRepo.save(request);
-			empIdList.add(request.getEmpID());
-			
-		}
+		AddressEntity address=mapToAddressEntity(request.getReq_address());
+		Employee.setAddress(address);
 		
-		return "All users saved : "+empIdList;
+		DepartmentEntity department=mapToDepartmentEntity(request.getReq_department());
+		Employee.setDepartment(department);
+		
+		return Employee;
 	}
+	
+	//Method- by @Rohit -Mapper method Employee-->ResponseDTO Entity -[12/3/26]
+	public static ResponseDTO mapToEmployeeResponseDTO(EmployeeEntity employee)
+	{
+		ResponseDTO response=new ResponseDTO();
+		//response.setRes_empID(employee.getEmpID());
+    	response.setRes_empName(employee.getEmpName());
+    	//response.setRes_department(employee.getDepartment);   hidden for short term
+    	response.setRes_empEmail(employee.getEmpEmail());
+    	response.setRes_salary(employee.getSalary());
+    	
+    	return response;
+	}
+	
+//######################################################################################################
+	// Address Entity Mapping methods
+//######################################################################################################	
+	
+	//Method- by @Rohit -Mapper method AddressRequestDTO-->AddressEntity -[12/3/26]
+	public static AddressEntity mapToAddressEntity(AddressRequestDTO addRequestDTO)
+		{
+			AddressEntity addressEntity=new AddressEntity();
+			addressEntity.setCity(addRequestDTO.getReq_city());
+			addressEntity.setState(addRequestDTO.getReq_state());
+			addressEntity.setPincode(addRequestDTO.getReq_pincode());
+			
+			return addressEntity;
+		}
+
+//######################################################################################################
+		// Department Entity Mapping methods
+//######################################################################################################	
+	//Method- by @Rohit -Mapper method Employee-->ResponseDTO Entity -[12/3/26]
+	
+	public static DepartmentEntity mapToDepartmentEntity(DepartmentRequestDTO deptRequestDTO)
+	{
+		DepartmentEntity department=new DepartmentEntity();
+		department.setDepartmentName(deptRequestDTO.getReq_departmentName());
+		department.setDepartmentLocation(deptRequestDTO.getReq_departmentLocation());
+		
+		return department;
+		
+		
+	}
+	
 }
