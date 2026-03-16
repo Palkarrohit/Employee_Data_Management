@@ -14,6 +14,8 @@ import com.example.SprinBooot_JPA_demo.DTO.ResponseDTO;
 import com.example.SprinBooot_JPA_demo.Entity.AddressEntity;
 import com.example.SprinBooot_JPA_demo.Entity.DepartmentEntity;
 import com.example.SprinBooot_JPA_demo.Entity.EmployeeEntity;
+import com.example.SprinBooot_JPA_demo.Repo.AddressRepo;
+import com.example.SprinBooot_JPA_demo.Repo.DepartmentRepo;
 import com.example.SprinBooot_JPA_demo.Repo.EmployeeRepo;
 
 @Service
@@ -21,6 +23,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 	@Autowired
 	EmployeeRepo empRepo;
+	
+	@Autowired
+	DepartmentRepo deptRepo;
+	
+	@Autowired
+	AddressRepo addRepo;
 	
 	@Override
 	public EmployeeEntity getEmployee(Long empId) {
@@ -155,7 +163,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	
 	
 	//Method- by @Rohit -Mapper method RequestDTO-->Employee Entity-[12/3/26]
-	public static EmployeeEntity mapToEmployeeEntity(RequestDTO request)
+	public  EmployeeEntity mapToEmployeeEntity(RequestDTO request)
 	{
 		EmployeeEntity Employee=new EmployeeEntity();
 		
@@ -167,7 +175,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 		AddressEntity address=mapToAddressEntity(request.getReq_address());
 		Employee.setAddress(address);
 		
-		DepartmentEntity department=mapToDepartmentEntity(request.getReq_department());
+//		DepartmentEntity department=mapToDepartmentEntity(request.getReq_department());
+//		Employee.setDepartment(department);
+ 
+		DepartmentEntity department =
+		        deptRepo.findById(request.getReq_department().getReq_departmentName())
+		        .orElseGet(() -> mapToDepartmentEntity(request.getReq_department()));
 		Employee.setDepartment(department);
 		
 		return Employee;
@@ -191,7 +204,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 //######################################################################################################	
 	
 	//Method- by @Rohit -Mapper method AddressRequestDTO-->AddressEntity -[12/3/26]
-	public static AddressEntity mapToAddressEntity(AddressRequestDTO addRequestDTO)
+	public  AddressEntity mapToAddressEntity(AddressRequestDTO addRequestDTO)
 		{
 			AddressEntity addressEntity=new AddressEntity();
 			addressEntity.setCity(addRequestDTO.getReq_city());
@@ -206,7 +219,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 //######################################################################################################	
 	//Method- by @Rohit -Mapper method Employee-->ResponseDTO Entity -[12/3/26]
 	
-	public static DepartmentEntity mapToDepartmentEntity(DepartmentRequestDTO deptRequestDTO)
+	public  DepartmentEntity mapToDepartmentEntity(DepartmentRequestDTO deptRequestDTO)
 	{
 		DepartmentEntity department=new DepartmentEntity();
 		department.setDepartmentName(deptRequestDTO.getReq_departmentName());

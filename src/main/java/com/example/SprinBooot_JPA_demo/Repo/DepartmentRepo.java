@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.example.SprinBooot_JPA_demo.Entity.DepartmentEntity;
 
 @Repository
-public interface DepartmentRepo extends JpaRepository<DepartmentEntity, Long> {
+public interface DepartmentRepo extends JpaRepository<DepartmentEntity, String> {
 
 	//created on [12/03/26]
 }

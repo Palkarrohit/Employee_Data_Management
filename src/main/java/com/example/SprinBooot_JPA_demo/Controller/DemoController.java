@@ -46,7 +46,7 @@ public class DemoController {
 	    // ---------------------------------------------------------
 	    // CREATE employee
 	    // ---------------------------------------------------------
-	    @PostMapping
+	    @PostMapping("/create")
 	    public ResponseEntity<String> createEmployee(@Valid @RequestBody RequestDTO requestDTO) {
 	        String message = employeeService.createEmployee(requestDTO);
 	        return ResponseEntity.status(HttpStatus.CREATED).body(message);

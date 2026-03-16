@@ -4,25 +4,33 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "Department")
 public class DepartmentEntity {
 	
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private Long department_Id;
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long department_Id;
-	
 	private String departmentName;
 	private String departmentLocation;
 	
+	
+	
 	//One:Many mapping with Department:List<EmployeeEntity>
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "emp_idFK")
+	//16/03/26 -->fetch = FetchType.LAZY  
+    @OneToMany(mappedBy = "department" ,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+   // @JoinColumn(name = "emp_idFK")---removed --> bbeacuse :Association 'DepartmentEntity.employees' is 'mappedBy' another entity
+                                                           // and may not specify the '@JoinColumn'
     private List<EmployeeEntity> employees;
 	
 	
@@ -32,14 +40,14 @@ public class DepartmentEntity {
 	
 //-------------Below are setter getter methods ------------------------------------------------------------------	
 	
-	public Long getDepartment_Id() {
-		return department_Id;
-	}
-
-
-	public void setDepartment_Id(Long department_Id) {
-		this.department_Id = department_Id;
-	}
+//	public Long getDepartment_Id() {
+//		return department_Id;
+//	}
+//
+//
+//	public void setDepartment_Id(Long department_Id) {
+//		this.department_Id = department_Id;
+//	}
 
 
 	public String getDepartmentName() {
@@ -59,6 +67,16 @@ public class DepartmentEntity {
 
 	public void setDepartmentLocation(String location) {
 		this.departmentLocation = location;
+	}
+
+
+	public List<EmployeeEntity> getEmployees() {
+		return employees;
+	}
+
+
+	public void setEmployees(List<EmployeeEntity> employees) {
+		this.employees = employees;
 	}
 	
 	

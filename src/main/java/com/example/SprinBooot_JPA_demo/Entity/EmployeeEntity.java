@@ -3,6 +3,7 @@ package com.example.SprinBooot_JPA_demo.Entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,8 +29,9 @@ public class EmployeeEntity {
 //	@Column(nullable = false)    --> depericated as method mapping done
 //	private String department;
 	//many:one mapping List<EmployeeEntity>;Department
-		@ManyToOne(cascade = CascadeType.ALL)
-		@JoinColumn(name = "dept_id_FK", referencedColumnName = "department_Id")
+	//16/03/26 --fetch = FetchType.LAZY => Data loads only when accessed.
+		@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+		@JoinColumn(name = "dept_id_FK")
 		private DepartmentEntity department;
 	
 	

@@ -10,10 +10,10 @@ import jakarta.validation.constraints.NotBlank;
 
 public class RequestDTO {
 
-	@NotBlank
+	//@NotBlank
 	private String Req_empName;
 	
-	@Email(message = "Id sould be in email formatOnly")
+	//@Email(message = "Id sould be in email formatOnly")
 	private String Req_empEmail;
 	
 	//@Column(nullable = false)
