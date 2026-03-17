@@ -1,5 +1,7 @@
 package com.example.SprinBooot_JPA_demo.DTO;
 
+import java.util.List;
+
 import com.example.SprinBooot_JPA_demo.Entity.AddressEntity;
 
 import jakarta.annotation.Nonnull;
@@ -26,6 +28,9 @@ public class RequestDTO {
 	
 	@Valid
 	private AddressRequestDTO Req_address;
+	
+	@Valid
+	private List<ProjectRequestDTO> Req_projects;
 	
 	
 	
@@ -84,6 +89,14 @@ public class RequestDTO {
 	public AddressRequestDTO getReq_address()
 	{
 		return Req_address;
+	}
+
+	public List<ProjectRequestDTO> getReq_projects() {
+		return Req_projects;
+	}
+
+	public void setReq_projects(List<ProjectRequestDTO> req_projects) {
+		Req_projects = req_projects;
 	}
 
 }

@@ -10,14 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.SprinBooot_JPA_demo.DTO.AddressRequestDTO;
 import com.example.SprinBooot_JPA_demo.DTO.DepartmentRequestDTO;
+import com.example.SprinBooot_JPA_demo.DTO.ProjectRequestDTO;
 import com.example.SprinBooot_JPA_demo.DTO.RequestDTO;
 import com.example.SprinBooot_JPA_demo.DTO.ResponseDTO;
 import com.example.SprinBooot_JPA_demo.Entity.AddressEntity;
 import com.example.SprinBooot_JPA_demo.Entity.DepartmentEntity;
 import com.example.SprinBooot_JPA_demo.Entity.EmployeeEntity;
+import com.example.SprinBooot_JPA_demo.Entity.ProjectEntity;
 import com.example.SprinBooot_JPA_demo.Repo.AddressRepo;
 import com.example.SprinBooot_JPA_demo.Repo.DepartmentRepo;
 import com.example.SprinBooot_JPA_demo.Repo.EmployeeRepo;
+import com.example.SprinBooot_JPA_demo.Repo.ProjectRepo;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
@@ -30,6 +33,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 	
 	@Autowired
 	AddressRepo addRepo;
+	
+	@Autowired
+	ProjectRepo projectRepo;
 	
 	@Override
 	public EmployeeEntity getEmployee(Long empId) {
@@ -185,6 +191,19 @@ public class EmployeeServiceImpl implements EmployeeService{
 		        .orElseGet(() -> mapToDepartmentEntity(request.getReq_department()));
 		Employee.setDepartment(department);
 		
+//===================================================================================================
+//		//Mapping with Projects
+//	
+//		List<String> projectNames=request.getReq_projects()
+//				                    .stream()
+//				                    .map(ProjectRequestDTO::getProjectName)
+//		                             .toList();
+//	
+//  This part is pending to develop
+//===============================================================================		
+		
+		
+		
 		return Employee;
 	}
 	
@@ -219,7 +238,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 //######################################################################################################
 		// Department Entity Mapping methods
 //######################################################################################################	
-	//Method- by @Rohit -Mapper method Employee-->ResponseDTO Entity -[12/3/26]
+	//Method- by @Rohit -Mapper method DepartmentRequestDTO-->DepartmentEntity Entity -[12/3/26]
 	
 	public  DepartmentEntity mapToDepartmentEntity(DepartmentRequestDTO deptRequestDTO)
 	{
@@ -231,5 +250,29 @@ public class EmployeeServiceImpl implements EmployeeService{
 		
 		
 	}
+	
+//######################################################################################################
+			// Project Entity Mapping methods
+//######################################################################################################	
+		//Method- by @Rohit -Mapper method ProjectRequestDTO-->Project Entity -[17/3/26]
+//	public ProjectEntity mapToProjectList(ProjectRequestDTO projectRequest)
+//	{
+//		ProjectEntity projects=new ProjectEntity();
+//		projects.setProjectName(projectRequest.getProjectName());
+//		projects.setEmployees(projectRequest.getEmployees());
+//
+//		return projects;
+//	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

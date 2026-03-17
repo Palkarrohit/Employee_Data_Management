@@ -1,5 +1,7 @@
 package com.example.SprinBooot_JPA_demo.Entity;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.Valid;
@@ -43,6 +47,15 @@ public class EmployeeEntity {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "addressfk_id" ,referencedColumnName = "address_Id")
 	private AddressEntity address;
+	
+	
+	@ManyToMany
+	@JoinTable(
+			name = "Employee_Project",
+			joinColumns = @JoinColumn(referencedColumnName = "empID"),
+			inverseJoinColumns = @JoinColumn(referencedColumnName = "project_Id")
+			)
+	private List<ProjectEntity> projects;
 	
 	
 	
@@ -97,6 +110,12 @@ public class EmployeeEntity {
 	}
 	public void setAddress(AddressEntity address) {
 		this.address = address;
+	}
+	public List<ProjectEntity> getProjects() {
+		return projects;
+	}
+	public void setProjects(List<ProjectEntity> projects) {
+		this.projects = projects;
 	}
 	
 	
