@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.SprinBooot_JPA_demo.DTO.AddressRequestDTO;
 import com.example.SprinBooot_JPA_demo.DTO.DepartmentRequestDTO;
@@ -135,6 +136,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 	
 
+	@Transactional
 	@Override
 	public List<ResponseDTO> getAllEmployees() {
 		
@@ -190,9 +192,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public static ResponseDTO mapToEmployeeResponseDTO(EmployeeEntity employee)
 	{
 		ResponseDTO response=new ResponseDTO();
-		//response.setRes_empID(employee.getEmpID());
+		response.setRes_empID(employee.getEmpID());
     	response.setRes_empName(employee.getEmpName());
-    	//response.setRes_department(employee.getDepartment);   hidden for short term
+    	response.setRes_department(employee.getDepartment().getDepartmentName());   //hidden for short term
     	response.setRes_empEmail(employee.getEmpEmail());
     	response.setRes_salary(employee.getSalary());
     	

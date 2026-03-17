@@ -15,7 +15,7 @@ public class ProjectEntity {
 	
 	private String projectName;
 	
-	@NotBlank
+	
 	private Long budget;
 	
 	
