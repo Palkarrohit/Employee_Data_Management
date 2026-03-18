@@ -1,5 +1,7 @@
 package com.example.SprinBooot_JPA_demo.DTO;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +25,15 @@ public class ResponseDTO {
 	
 	@Column(nullable = false)
 	private double Res_salary;
+	
+	private String Res_EmployeeCity;
+	
+	private List<String> Res_projects;
+	
+	
+//====================================================================================================
+	// Below are setter getters
+//====================================================================================================	
 
 	public Long getRes_empID() {
 		return Res_empID;
@@ -62,5 +73,21 @@ public class ResponseDTO {
 
 	public void setRes_salary(double res_salary) {
 		Res_salary = res_salary;
+	}
+
+	public String getRes_EmployeeCity() {
+		return Res_EmployeeCity;
+	}
+
+	public void setRes_EmployeeCity(String res_EmployeeCity) {
+		Res_EmployeeCity = res_EmployeeCity;
+	}
+
+	public List<String> getRes_projects() {
+		return Res_projects;
+	}
+
+	public void setRes_projects(List<String> res_projects) {
+		Res_projects = res_projects;
 	}
 }

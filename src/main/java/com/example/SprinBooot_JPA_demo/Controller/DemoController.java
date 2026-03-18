@@ -30,8 +30,8 @@ public class DemoController {
 	    // GET single employee
 	    // ---------------------------------------------------------
 	    @GetMapping("/{id}")
-	    public ResponseEntity<EmployeeEntity> getEmployee(@PathVariable Long id) {
-	        EmployeeEntity employee = employeeService.getEmployee(id);
+	    public ResponseEntity<ResponseDTO> getEmployee(@PathVariable Long id) {
+	        ResponseDTO employee = employeeService.getEmployee(id);
 	        return ResponseEntity.ok(employee);
 	    }
 

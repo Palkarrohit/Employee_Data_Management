@@ -10,7 +10,7 @@ public interface EmployeeService {
 	
 	public List<ResponseDTO> getAllEmployees();
 	
-	EmployeeEntity getEmployee(Long empId);
+	ResponseDTO getEmployee(Long empId);
 	
 	String createEmployee(RequestDTO requestDTO);
 	
