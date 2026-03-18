@@ -2,6 +2,8 @@ package com.example.SprinBooot_JPA_demo.Entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +24,7 @@ public class ProjectEntity {
 	private Long budget;
 	
 	@ManyToMany(mappedBy = "projects")
+	@JsonIgnore
 	private List<EmployeeEntity> employees;
 	
 	

@@ -125,19 +125,16 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return "All users saved : "+empIdList;
 	}
 	
-	
-
+//==================================================================================================	
+//    Delete Method
+//==================================================================================================	
 	@Override
 	public String deleteEmployee(Long empId) {
-		EmployeeEntity entity= new EmployeeEntity();
-		if(empId.equals(entity.getEmpID()))
-		{
-		empRepo.deleteById(empId);
-		}
-		else
-		{
-			throw new RuntimeException("Not such Id exsist");
-		}
+		EmployeeEntity entity= empRepo.findById(empId)
+				                 .orElseThrow(()->new RuntimeException("Not such Id exsist"));
+		
+		empRepo.delete(entity);
+		
 		return "Employee Deleted : "+empId;
 	}
 	
@@ -182,27 +179,21 @@ public class EmployeeServiceImpl implements EmployeeService{
 		
 		AddressEntity address=mapToAddressEntity(request.getReq_address());
 		Employee.setAddress(address);
-		
-//		DepartmentEntity department=mapToDepartmentEntity(request.getReq_department());
-//		Employee.setDepartment(department);
- 
+//---------------------------------------------------------------------------------------------------
+//	     Department Mapping
+//---------------------------------------------------------------------------------------------------
+
 		DepartmentEntity department =
 		        deptRepo.findById(request.getReq_department().getReq_departmentName())
 		        .orElseGet(() -> mapToDepartmentEntity(request.getReq_department()));
 		Employee.setDepartment(department);
+//---------------------------------------------------------------------------------------------------
+//     Project Mapping
+//---------------------------------------------------------------------------------------------------
 		
-//===================================================================================================
-//		//Mapping with Projects
-//	
-//		List<String> projectNames=request.getReq_projects()
-//				                    .stream()
-//				                    .map(ProjectRequestDTO::getProjectName)
-//		                             .toList();
-//	
-//  This part is pending to develop
-//===============================================================================		
-		
-		
+		List<ProjectEntity> projectList=mapToProjectsList(request);
+		Employee.setProjects(projectList);
+		projectList.forEach(p->p.setEmployees(List.of(Employee)));
 		
 		return Employee;
 	}
@@ -264,8 +255,36 @@ public class EmployeeServiceImpl implements EmployeeService{
 //		return projects;
 //	}
 
-	
-	
+//	public List<ProjectEntity> mapToProjectsList(RequestDTO request)
+//	{
+//		List<ProjectEntity> projectList= request.getReq_projects().stream()
+//		                                .map(projectRequestDTO->{
+//			                      ProjectEntity project=new ProjectEntity();
+//			                      project.setProjectName(projectRequestDTO.getProjectName());
+//			                      return project;
+//		})
+//		.toList();
+//		
+//		return projectList;
+//	}
+	public List<ProjectEntity> mapToProjectsList(RequestDTO request)
+	{
+	    return request.getReq_projects().stream()
+	            .map(projectDTO -> {
+
+	                ProjectEntity project = projectRepo
+	                        .findByProjectName(projectDTO.getProjectName()) // or custom finder
+	                        .orElseGet(() -> {
+	                            ProjectEntity newProject = new ProjectEntity();
+	                            newProject.setProjectName(projectDTO.getProjectName());
+	                            newProject.setBudget(projectDTO.getBudget());
+	                            return projectRepo.save(newProject);
+	                        });
+
+	                return project;
+	            })
+	            .toList();
+	}
 	
 	
 	
