@@ -1,9 +1,14 @@
 package com.example.SprinBooot_JPA_demo.Entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
@@ -18,7 +23,15 @@ public class ProjectEntity {
 	
 	private Long budget;
 	
+	@ManyToMany(mappedBy = "projects")
+	@JsonIgnore
+	private List<EmployeeEntity> employees;
 	
+	
+//------------------------------------------------------------------------------------------------
+		// Below are getter setters do not change it created using source
+//------------------------------------------------------------------------------------------------
+		
 	public Long getProject_Id() {
 		return project_Id;
 	}
@@ -36,6 +49,12 @@ public class ProjectEntity {
 	}
 	public void setBudget(Long budget) {
 		this.budget = budget;
+	}
+	public List<EmployeeEntity> getEmployees() {
+		return employees;
+	}
+	public void setEmployees(List<EmployeeEntity> employees) {
+		this.employees = employees;
 	}	
 	
 

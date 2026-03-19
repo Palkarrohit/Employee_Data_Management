@@ -10,7 +10,7 @@ public interface EmployeeService {
 	
 	public List<ResponseDTO> getAllEmployees();
 	
-	EmployeeEntity getEmployee(Long empId);
+	ResponseDTO getEmployee(Long empId);
 	
 	String createEmployee(RequestDTO requestDTO);
 	
@@ -19,6 +19,8 @@ public interface EmployeeService {
 	String deleteEmployee(Long empId);
 	
 	String createListOfEmployee(RequestDTO[] requestDTOArray);
+	
+	List<ResponseDTO> getEmployeeWithPagination(int page,int size);
 	
 
 }

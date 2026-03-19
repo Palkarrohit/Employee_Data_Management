@@ -2,6 +2,8 @@ package com.example.SprinBooot_JPA_demo.Entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,6 +33,7 @@ public class DepartmentEntity {
     @OneToMany(mappedBy = "department" ,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
    // @JoinColumn(name = "emp_idFK")---removed --> bbeacuse :Association 'DepartmentEntity.employees' is 'mappedBy' another entity
                                                            // and may not specify the '@JoinColumn'
+   @JsonIgnore
     private List<EmployeeEntity> employees;
 	
 	

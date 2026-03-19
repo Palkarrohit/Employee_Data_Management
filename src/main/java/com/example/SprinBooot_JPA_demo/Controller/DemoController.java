@@ -30,8 +30,8 @@ public class DemoController {
 	    // GET single employee
 	    // ---------------------------------------------------------
 	    @GetMapping("/{id}")
-	    public ResponseEntity<EmployeeEntity> getEmployee(@PathVariable Long id) {
-	        EmployeeEntity employee = employeeService.getEmployee(id);
+	    public ResponseEntity<ResponseDTO> getEmployee(@PathVariable Long id) {
+	        ResponseDTO employee = employeeService.getEmployee(id);
 	        return ResponseEntity.ok(employee);
 	    }
 
@@ -77,17 +77,25 @@ public class DemoController {
 	    // ---------------------------------------------------------
 	    // DELETE employee
 	    // ---------------------------------------------------------
-	    @DeleteMapping("/{id}")
+	    @DeleteMapping("delete/{id}")
 	    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
 	        String message = employeeService.deleteEmployee(id);
 	        return ResponseEntity.ok(message);
 	    }
 
-	   
+	    // ---------------------------------------------------------
+	    // Get employee b y pagination 19/03/2026
+	    // ---------------------------------------------------------
 	    
-	
+	    @GetMapping("/page")
+	     public ResponseEntity<List<ResponseDTO>>  getEmployeebyPaginaton(@RequestParam int page,
+	    		                                      @RequestParam int size  )
 
-	    
+	     {//http://localhost:8080/Employee/page?page=0&size=10
+	    	List<ResponseDTO> response=employeeService.getEmployeeWithPagination(page, size);
+	    	return ResponseEntity.ok(response);
+	    	
+	     }
 	    
 	    
 	
