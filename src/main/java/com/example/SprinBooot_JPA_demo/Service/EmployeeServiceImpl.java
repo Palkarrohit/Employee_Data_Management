@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 //  Get Single Employee Method
 //==================================================================================================	
 
+	@Transactional(readOnly = true)
 	@Override
 	public ResponseDTO getEmployee(Long empId) {
 		
@@ -53,12 +57,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 //  Get All Employee Method
 //==================================================================================================	
 	
-	
+	@Transactional(readOnly = true)
 	@Override
 	public List<ResponseDTO> getAllEmployees() {
 		
 		List<ResponseDTO> resposeList=new ArrayList<>();
-	    for( EmployeeEntity employee: empRepo.findAll())	
+	    for( EmployeeEntity employee: empRepo.findAllWithProjects())	
 	    {
     	ResponseDTO response = mapToEmployeeResponseDTO(employee);
 	    	
@@ -83,7 +87,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		
 		//End-Adding address one:one by @Rohit -[12/03/2026]
 		
-		return "UserCreated Succeefully";
+		return "UserCreated Succeefully : " +"[ "+request.getEmpID()+" ]";
 	}
 
 //==================================================================================================	
@@ -134,6 +138,38 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return "Employee Deleted : "+empId;
 	}
 	
+//==================================================================================================	
+//  Pagination Method to get employee data 19/03/2026
+//==================================================================================================	
+
+	@Transactional(readOnly = true)
+ @Override
+public List<ResponseDTO> getEmployeeWithPagination(int page, int size) {
+	Pageable pageable=PageRequest.of(page, size);
+	Page<EmployeeEntity> employeePage=empRepo.findAll(pageable);
+	
+	List<ResponseDTO> employeeList=new ArrayList<>();
+	for(EmployeeEntity employee:employeePage.getContent())
+	{
+		ResponseDTO response=mapToEmployeeResponseDTO(employee);
+		employeeList.add(response);
+	}
+	
+	return employeeList;
+}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 //#############################################################################################################	
 	// Mapper Methods below
@@ -155,9 +191,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 //	     Department Mapping
 //---------------------------------------------------------------------------------------------------
 
-		DepartmentEntity department =
-		        deptRepo.findById(request.getReq_department().getReq_departmentName())
-		        .orElseGet(() -> mapToDepartmentEntity(request.getReq_department()));
+		DepartmentEntity department =mapToDepartmentEntity(request);
+		        
 		Employee.setDepartment(department);
 //---------------------------------------------------------------------------------------------------
 //     Project Mapping
@@ -205,11 +240,17 @@ public class EmployeeServiceImpl implements EmployeeService{
 //######################################################################################################	
 	//Method- by @Rohit -Mapper method DepartmentRequestDTO-->DepartmentEntity Entity -[12/3/26]
 	
-	public  DepartmentEntity mapToDepartmentEntity(DepartmentRequestDTO deptRequestDTO)
+	public  DepartmentEntity mapToDepartmentEntity(RequestDTO request)
 	{
-		DepartmentEntity department=new DepartmentEntity();
-		department.setDepartmentName(deptRequestDTO.getReq_departmentName());
-		department.setDepartmentLocation(deptRequestDTO.getReq_departmentLocation());
+		DepartmentEntity  department=deptRepo.findByDepartmentName(request.getReq_department().getReq_departmentName())
+		  .orElseGet(()->{
+			  DepartmentEntity newDepartment=new DepartmentEntity();
+			  newDepartment.setDepartmentName(request.getReq_department().getReq_departmentName());
+			  newDepartment.setDepartmentLocation(request.getReq_department().getReq_departmentLocation());
+			  return  deptRepo.save(newDepartment) ;
+		  });
+		        	
+		       
 		
 		return department;
 		

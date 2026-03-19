@@ -83,11 +83,19 @@ public class DemoController {
 	        return ResponseEntity.ok(message);
 	    }
 
-	   
+	    // ---------------------------------------------------------
+	    // Get employee b y pagination 19/03/2026
+	    // ---------------------------------------------------------
 	    
-	
+	    @GetMapping("/page")
+	     public ResponseEntity<List<ResponseDTO>>  getEmployeebyPaginaton(@RequestParam int page,
+	    		                                      @RequestParam int size  )
 
-	    
+	     {//http://localhost:8080/Employee/page?page=0&size=10
+	    	List<ResponseDTO> response=employeeService.getEmployeeWithPagination(page, size);
+	    	return ResponseEntity.ok(response);
+	    	
+	     }
 	    
 	    
 	

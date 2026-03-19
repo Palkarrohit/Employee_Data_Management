@@ -2,6 +2,9 @@ package com.example.SprinBooot_JPA_demo.Entity;
 
 import java.util.List;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,6 +21,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class EmployeeEntity {
 	
 	@Id

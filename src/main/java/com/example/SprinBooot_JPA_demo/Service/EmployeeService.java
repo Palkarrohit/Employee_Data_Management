@@ -20,5 +20,7 @@ public interface EmployeeService {
 	
 	String createListOfEmployee(RequestDTO[] requestDTOArray);
 	
+	List<ResponseDTO> getEmployeeWithPagination(int page,int size);
+	
 
 }
