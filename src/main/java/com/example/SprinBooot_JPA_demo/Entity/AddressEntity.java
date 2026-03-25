@@ -1,5 +1,9 @@
 package com.example.SprinBooot_JPA_demo.Entity;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class AddressEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
