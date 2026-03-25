@@ -15,7 +15,7 @@ import com.example.SprinBooot_JPA_demo.Entity.EmployeeEntity;
 @Repository
 public interface EmployeeRepo extends JpaRepository<EmployeeEntity, Long>{
 
-	@EntityGraph(attributePaths = {"address", "projects"})
+	@EntityGraph(attributePaths = {"address"})
 	Page<EmployeeEntity> findAll(Pageable pageable);
 	
 	@Query("SELECT DISTINCT e FROM EmployeeEntity e JOIN FETCH e.projects")

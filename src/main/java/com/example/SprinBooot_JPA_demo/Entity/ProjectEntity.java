@@ -2,8 +2,12 @@ package com.example.SprinBooot_JPA_demo.Entity;
 
 import java.util.List;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +16,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class ProjectEntity {
 	
 	@Id

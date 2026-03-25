@@ -2,9 +2,11 @@ package com.example.SprinBooot_JPA_demo.Entity;
 
 import java.util.List;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +23,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class EmployeeEntity {
 	
 	@Id
@@ -53,12 +56,14 @@ public class EmployeeEntity {
 	private AddressEntity address;
 	
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "Employee_Project",
 			joinColumns = @JoinColumn(referencedColumnName = "empID"),
 			inverseJoinColumns = @JoinColumn(referencedColumnName = "project_Id")
 			)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@BatchSize(size = 10)
 	private List<ProjectEntity> projects;
 	
 	

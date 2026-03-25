@@ -2,8 +2,12 @@ package com.example.SprinBooot_JPA_demo.Entity;
 
 import java.util.List;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,6 +21,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Department")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class DepartmentEntity {
 	
 //	@Id
@@ -30,7 +36,7 @@ public class DepartmentEntity {
 	
 	//One:Many mapping with Department:List<EmployeeEntity>
 	//16/03/26 -->fetch = FetchType.LAZY  
-    @OneToMany(mappedBy = "department" ,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "department" ,fetch = FetchType.LAZY)
    // @JoinColumn(name = "emp_idFK")---removed --> bbeacuse :Association 'DepartmentEntity.employees' is 'mappedBy' another entity
                                                            // and may not specify the '@JoinColumn'
    @JsonIgnore
